@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use parent 'Exporter';
 use 5.008005;
-our $VERSION = '0.0.1';
+our $VERSION = '0.0.2';
 
 our @EXPORT = 'try';
 
@@ -64,8 +64,7 @@ sub try (&;%) {
             next unless $class eq '*' || (Scalar::Util::blessed($error) && UNIVERSAL::isa($error, $class));
 
             local $@ = $error;
-            $code->();
-            return;
+            return $code->();
         }
 
         # rethrow
@@ -96,7 +95,7 @@ Try::Lite - easy exception catcher with auto rethrow
           say ref($@); # show 'YourExceptionClass'
       };
 
-you can catch base exception class:
+You can catch base exception class:
 
   package YourExceptionClass {
       use parent 'BaseExceptionClass';
@@ -109,7 +108,7 @@ you can catch base exception class:
           say ref($@); # show 'YourExceptionClass'
       };
 
-you can catch any exception:
+You can catch any exception:
 
   try {
       die "oops\n";
@@ -118,7 +117,7 @@ you can catch any exception:
           say $@; # show "oops\n";
       };
 
-auto rethrow:
+If there is no matched catch clause, Try::Lite rethrow the exception automatically:
 
   eval {
       try {
@@ -128,7 +127,19 @@ auto rethrow:
   };
   say $@; # show "oops\n"
 
-you can any exception catch:
+You can receives the  try block return value and catechs subs return value:
+
+  my $ret = try {
+      'foo'
+  } '*' => sub {};
+  say $ret; # show 'foo'
+  
+  my $ret = try {
+      die 'foo'
+  } '*' => sub { 'bar' };
+  say $ret; # show 'bar'
+
+You can catch any exceptions:
 
   sub run (&) {
     my $code = shift;

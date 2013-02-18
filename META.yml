@@ -19,7 +19,7 @@ no_index:
 provides:
   Try::Lite:
     file: lib/Try/Lite.pm
-    version: v0.0.1
+    version: v0.0.2
 requires:
   Exporter: 0
   Scalar::Util: 0
@@ -27,4 +27,4 @@ requires:
   perl: 5.008005
 resources:
   license: http://dev.perl.org/licenses/
-version: v0.0.1
+version: v0.0.2

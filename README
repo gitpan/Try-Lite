@@ -10,7 +10,7 @@ SYNOPSIS
               say ref($@); # show 'YourExceptionClass'
           };
 
-    you can catch base exception class:
+    You can catch base exception class:
 
       package YourExceptionClass {
           use parent 'BaseExceptionClass';
@@ -23,7 +23,7 @@ SYNOPSIS
               say ref($@); # show 'YourExceptionClass'
           };
 
-    you can catch any exception:
+    You can catch any exception:
 
       try {
           die "oops\n";
@@ -32,7 +32,8 @@ SYNOPSIS
               say $@; # show "oops\n";
           };
 
-    auto rethrow:
+    If there is no matched catch clause, Try::Lite rethrow the exception
+    automatically:
 
       eval {
           try {
@@ -42,7 +43,20 @@ SYNOPSIS
       };
       say $@; # show "oops\n"
 
-    you can any exception catch:
+    You can receives the try block return value and catechs subs return
+    value:
+
+      my $ret = try {
+          'foo'
+      } '*' => sub {};
+      say $ret; # show 'foo'
+  
+      my $ret = try {
+          die 'foo'
+      } '*' => sub { 'bar' };
+      say $ret; # show 'bar'
+
+    You can catch any exceptions:
 
       sub run (&) {
         my $code = shift;
